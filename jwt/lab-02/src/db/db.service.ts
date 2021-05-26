@@ -21,6 +21,10 @@ export class DbService {
     return Promise.resolve(_.find(this.db, ['email', email]));
   }
 
+  async getUserById(id: string): Promise<User | undefined> {
+    return Promise.resolve(_.find(this.db, ['id', id]));
+  }
+
   async createUser(user: User): Promise<User> {
     const newUser = {
       ...user,

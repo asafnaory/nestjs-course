@@ -10,17 +10,18 @@ import { User } from './interfaces/user.interface';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly dbService: DbService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: jwtConstants.secret,
     });
   }
 
   async validate(payload: JwtPayload): Promise<User> {
     const { id } = payload;
-    const user = await this.dbService.getUserByEmail(id);
+    const user = await this.dbService.getUserById(id);
 
-    if (!user) throw new UnauthorizedException();
-
+    if (!user) {
+      throw new UnauthorizedException();
+    }
     return user;
   }
 }

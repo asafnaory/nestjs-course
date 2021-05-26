@@ -4,15 +4,19 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-// bcrypt is a password-hashing function
 import * as bcrypt from 'bcryptjs';
-import { DbService } from '../db/db.service';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly dbService: DbService) {}
+  constructor(
+    private readonly dbService: DbService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async signup(dto: AuthCredentialsDto): Promise<any> {
+  async signup(dto: AuthCredentialsDto): Promise<string> {
     const { email, password } = dto;
 
     const user = await this.dbService.getUserByEmail(email);
@@ -30,10 +34,10 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return newUser;
+    return `User successfully created: ${newUser.id}`;
   }
 
-  async signin(dto: AuthCredentialsDto): Promise<string> {
+  async signin(dto: AuthCredentialsDto): Promise<{ accessToken: string }>  {
     const { email, password } = dto;
     const user = await this.dbService.getUserByEmail(email);
 
@@ -48,6 +52,9 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
-    return 'OK';
+	const payload: JwtPayload = { id: user.id };
+    const accessToken = this.jwtService.sign(payload);
+
+    return { accessToken };
   }
 }
