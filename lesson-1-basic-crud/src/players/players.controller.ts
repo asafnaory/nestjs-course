@@ -3,10 +3,8 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './entities/player.entity';
-import { IdvalidationPipe } from './pipes/idvalidation.pipe';
 
 @Controller('players')
-@UsePipes(IdvalidationPipe)
 export class PlayersController {
 
     constructor(private playersService: PlayersService){}
@@ -16,17 +14,15 @@ export class PlayersController {
         return this.playersService.getAllPlayers()
     }
     @Get(':id')
-    // @UsePipes(IdvalidationPipe)
     getPlayerById(@Param('id', ParseIntPipe) id: number): Player{
         return this.playersService.getPlayerById(id)
-
     }
+    
     @Post()
     createPlayer(@Body() createPlayerDto: CreatePlayerDto): Player[]{
         return this.playersService.createPlayer(createPlayerDto)
     }
     @Put(':id')
-    // @UsePipes(IdvalidationPipe)
     updatePlayer(
     @Param('id', ParseIntPipe) id: number, 
     @Body() updatePlayerDto: UpdatePlayerDto
@@ -35,7 +31,6 @@ export class PlayersController {
     }
     
     @Delete(':id')
-    // @UsePipes(IdvalidationPipe)
     removePlayer(
         @Param('id') id: number, 
     ){
