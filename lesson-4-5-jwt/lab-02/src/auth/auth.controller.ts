@@ -1,11 +1,12 @@
 import { Body, Controller, Get, HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { DbService } from 'src/db/db.service';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly dbService: DbService) {}
 
   @Post('/signup')
   async signup(@Body() dto: AuthCredentialsDto): Promise<string>  {
@@ -20,17 +21,16 @@ export class AuthController {
     return this.authService.signin(dto);
   }
 
-  @Get('/test')
+  @Get('/user')
   @UseGuards(AuthGuard())
   test(@Req() req) {
-    console.log(`/test - ${req.user}`);
+    // console.log(`/user - ${req.user}`);
     return req.user;
   }
 
-  @Get('/test2')
+  @Get('/users')
   @UseGuards(AuthGuard())
   test2(@Req() req) {
-    console.log(`/test2 - ${req.user}`);
-    return req.user;
+     return this.dbService.getAllUsers()
   }
 }

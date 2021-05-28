@@ -37,7 +37,7 @@ export class AuthService {
     return `User successfully created: ${newUser.id}`;
   }
 
-  async signin(dto: AuthCredentialsDto): Promise<{ accessToken: string }>  {
+  async signin(dto: AuthCredentialsDto): Promise<{ accessToken: string }> {
     const { email, password } = dto;
     const user = await this.dbService.getUserByEmail(email);
 
@@ -52,7 +52,7 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
-	const payload: JwtPayload = { id: user.id };
+    const payload: JwtPayload = { id: user.id };
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };
