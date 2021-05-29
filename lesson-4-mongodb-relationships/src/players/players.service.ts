@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, QueryOptions } from 'mongoose';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Team } from 'src/teams/entities/team.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Player } from './entities/player.entity';
@@ -9,11 +10,15 @@ import { Player } from './entities/player.entity';
 @Injectable()
 export class PlayersService {
     
-    constructor(@InjectModel(Player.name) private readonly playerModel: Model<Player>) {}
+    constructor(@InjectModel(Player.name) private readonly playerModel: Model<Player>,
+                @InjectModel(Team.name) private readonly teamModel: Model<Team>
+    ) {}
 
     async getAllPlayers(dto: PaginationQueryDto): Promise<Player[]>{      
         const {offset, limit} = dto
+        
         return await this.playerModel.find().skip(offset).limit(limit);
+        // .populate({ path: 'team', select: '-players' }); //exclude redundent data
     }
 
     async getPlayerById(id:string): Promise<Player>{
@@ -26,7 +31,12 @@ export class PlayersService {
 
 
     async createPlayer(createPlayerDto: CreatePlayerDto): Promise<Player>{
-        return await this.playerModel.create(createPlayerDto);
+        const player = await this.playerModel.create(createPlayerDto)
+        const team = await this.teamModel.findById(createPlayerDto.team)
+        team.players.push(player);
+        await team.save();
+        await this.playerModel.create(createPlayerDto);
+        return 
     }
 
     async updatePlayer(id:string, updatePlayerDto: UpdatePlayerDto): Promise<Player>{
