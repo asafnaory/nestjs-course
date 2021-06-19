@@ -21,6 +21,7 @@ export class AuthService {
       throw new ConflictException('User with that email already exists');
     }
 
+    // generate a salt and hash on separate function calls
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log({ salt, hashedPassword });
