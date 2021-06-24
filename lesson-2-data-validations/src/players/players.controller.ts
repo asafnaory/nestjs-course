@@ -17,7 +17,7 @@ export class PlayersController {
     }
     @Get(':id')
     @UsePipes(IdvalidationPipe)
-    getPlayerById(@Param('id', ParseIntPipe) id: number): Player{
+    getPlayerById(@Param('id') id: number): Player{
         return this.playersService.getPlayerById(id)
     }
     
@@ -28,7 +28,7 @@ export class PlayersController {
     @Put(':id')
     @UsePipes(IdvalidationPipe)
     updatePlayer(
-    @Param('id', ParseIntPipe) id: number, 
+    @Param('id') id: number, 
     @Body() updatePlayerDto: UpdatePlayerDto
     ){
         return this.playersService.updatePlayer(id,updatePlayerDto) 
