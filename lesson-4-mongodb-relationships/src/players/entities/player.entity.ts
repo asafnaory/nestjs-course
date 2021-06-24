@@ -6,8 +6,8 @@ import { Team } from "../../teams/entities/team.entity";
 @Schema({ timestamps: true })
 @Schema()
 export class Player extends Document {
-    @Prop()first_name : string
-    @Prop()last_name : string
+    @Prop()firstName : string
+    @Prop()lastName : string
     @Prop()ppg : string
 
     // reference by id only 
