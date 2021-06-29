@@ -34,9 +34,9 @@ export class PlayersService {
         const player = await this.playerModel.create(createPlayerDto)
         const team = await this.teamModel.findById(createPlayerDto.team)
         team.players.push(player);
-        await team.save();
-        await this.playerModel.create(createPlayerDto);
-        return 
+        await team.save();        
+
+        return player;
     }
 
     async updatePlayer(id:string, updatePlayerDto: UpdatePlayerDto): Promise<Player>{
@@ -46,7 +46,16 @@ export class PlayersService {
         return player;
     }
 
-    async removePlayer(id:string): Promise<Player>{
-        return await this.playerModel.findByIdAndRemove(id);
+    async removePlayer(playerId:string, teamId:string): Promise<Player>{
+        const player  = await this.playerModel.findByIdAndRemove(playerId)
+        if(!player){
+            throw new NotFoundException(`Player not found id:'${playerId}'`);
+        }
+        const team = await this.teamModel.findById(teamId);
+        //Delete player from team 
+        const playerIndex = team.players.findIndex(player => player._id === playerId);
+        team.players.splice(playerIndex,1);
+        await team.save();
+        return player
     }
 }

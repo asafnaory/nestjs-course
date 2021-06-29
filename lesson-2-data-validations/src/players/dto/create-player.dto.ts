@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, Matches, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, Matches, MinLength, IsNumber } from 'class-validator';
 export class CreatePlayerDto{
 
     @IsNotEmpty()
@@ -10,7 +10,7 @@ export class CreatePlayerDto{
     readonly lastName: string
     
     @IsNotEmpty()
-    @IsString()
-    readonly ppg : string
+    @IsNumber()
+    readonly ppg : number
 
 }

@@ -3,11 +3,11 @@ export class CreatePlayerDto{
 
     @IsNotEmpty()
     @IsString()
-    readonly first_name: string
+    readonly firstName: string
     
     @IsNotEmpty()
     @IsString()
-    readonly last_name: string
+    readonly lastName: string
     
     @IsNotEmpty()
     @IsString()

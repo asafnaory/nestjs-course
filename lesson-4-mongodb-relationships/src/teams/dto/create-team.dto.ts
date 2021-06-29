@@ -7,5 +7,5 @@ export class CreateTeamDto {
 
     @IsNotEmpty()
     @IsNumber()
-    readonly players_amount: number
+    readonly playersAmount: number
 }

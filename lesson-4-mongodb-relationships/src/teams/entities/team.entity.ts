@@ -5,7 +5,7 @@ import { Player, PlayerSchema } from '../../players/entities/player.entity';
 @Schema({timestamps: true})
 export class Team extends Document {
     @Prop() name: string;
-    @Prop() players_amount: number;
+    @Prop() playersAmount: number;
     
     //Option 1 - embed sub document 
     @Prop({PlayerSchema}) players:Player[];

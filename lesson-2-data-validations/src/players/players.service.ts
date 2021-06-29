@@ -43,7 +43,8 @@ export class PlayersService {
                 id: this.createId(),
                 firstName: createPlayerDto.firstName,
                 lastName: createPlayerDto.lastName,
-                ppg: parseInt(createPlayerDto.ppg)
+                // ppg: parseInt(createPlayerDto.ppg)
+                ppg: createPlayerDto.ppg
             }
             this.players.push(player)
             return [...this.players]
@@ -81,7 +82,8 @@ export class PlayersService {
             player.lastName = updatePlayerDto.lastName
         }
         if(updatePlayerDto.ppg){
-            player.ppg = parseInt(updatePlayerDto.ppg)
+            // player.ppg = parseInt(updatePlayerDto.ppg)
+            player.ppg = updatePlayerDto.ppg
         }
         return player
     }

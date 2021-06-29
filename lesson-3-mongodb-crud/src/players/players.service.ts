@@ -18,8 +18,9 @@ export class PlayersService {
 
     async getPlayerById(id:string): Promise<Player>{
         const player = await this.playerModel.findById(id)
-                                                                // .select('-id first_name last_name ppg')
-                                                                 // _id is opt-out, all other fields are opt-in
+                                                                // .select('-_id -__v')
+                                                                // .select('firstName')
+                                                                 // _id and __v is opt-out, all other fields are opt-in
         if(!player)  throw new NotFoundException(`Player not found id:'${id}'`);
         return player       
     }

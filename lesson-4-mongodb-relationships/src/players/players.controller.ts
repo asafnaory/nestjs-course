@@ -34,10 +34,11 @@ export class PlayersController {
         return await this.playersService.updatePlayer(id ,updatePlayerDto) 
     }
     
-    @Delete(':id')
+    @Delete('player/:playerId/team/:teamId')
     async  removePlayer(
-        @Param('id', IdvalidationPipe) id: string, 
+        @Param('playerId', IdvalidationPipe) playerId: string, 
+        @Param('teamId', IdvalidationPipe) teamId: string, 
     ):Promise<Player>{
-        return await this.playersService.removePlayer(id) 
+        return await this.playersService.removePlayer(playerId, teamId) 
     }
 }
