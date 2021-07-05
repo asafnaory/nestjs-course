@@ -22,14 +22,14 @@ export class AuthController {
   }
 
   @Get('/user')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard()) // it is the defsult of AuthGuard('jwt')
   test(@Req() req) {
     // console.log(`/user - ${req.user}`);
     return req.user;
   }
 
   @Get('/users')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard()) // it is the defsult of AuthGuard('jwt')
   test2(@Req() req) {
      return this.dbService.getAllUsers()
   }

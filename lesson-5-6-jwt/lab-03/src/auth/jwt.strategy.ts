@@ -30,6 +30,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!userFromDb) {
       throw new UnauthorizedException();
     }
-    return { ...userFromDb, fromValidate: 'ok' };
+    return { ...userFromDb, 'extra-field-added-by-validation-from-strategy': 'ok' };
   }
 }

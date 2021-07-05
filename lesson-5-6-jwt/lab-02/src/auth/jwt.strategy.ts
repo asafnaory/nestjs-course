@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly dbService: DbService) {
     // code for API server which needs to validate jwt token
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // full extractors list - https://github.com/mikenicholson/passport-jwt#included-extractors
       secretOrKey: jwtConstants.secret, // public key for symmetric signature
     });
   }

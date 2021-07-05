@@ -8,6 +8,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { DbService } from 'src/db/db.service';
+import { UserRole } from './interfaces/roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,7 @@ export class AuthService {
     const newUser = await this.dbService.createUser({
       email,
       password: hashedPassword,
+      role: UserRole.USER,
     });
 
     return `User successfully created: ${newUser.id}`;

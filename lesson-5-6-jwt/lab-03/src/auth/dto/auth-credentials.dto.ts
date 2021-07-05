@@ -1,4 +1,5 @@
 import { IsEmail, Matches, MaxLength, MinLength } from 'class-validator';
+import { UserRole } from '../interfaces/roles.enum';
 
 export class AuthCredentialsDto {
   @MinLength(8)
@@ -14,5 +15,5 @@ export class AuthCredentialsDto {
     message: `Please use a strong Password`,
   })
   readonly password: string;
-  readonly role: 'user' | 'admin';
+  readonly role: UserRole;
 }
