@@ -52,7 +52,7 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
-    const payload: JwtPayload = { id: user.id };
+    const payload: JwtPayload = { id: user.id }; // payload of jwt, used later to fetch in db user by id
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };

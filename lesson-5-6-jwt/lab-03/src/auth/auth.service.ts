@@ -33,7 +33,7 @@ export class AuthService {
     const newUser = await this.dbService.createUser({
       email,
       password: hashedPassword,
-      role: UserRole.USER,
+      roles: UserRole.USER,
     });
 
     return `User successfully created: ${newUser.id}`;
@@ -54,7 +54,7 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
-    const payload: JwtPayload = { id: user.id };
+    const payload: JwtPayload = { id: user.id }; // payload of jwt, used later to fetch in db user by id
     const accessToken = this.jwtService.sign(payload);
 
     return { accessToken };

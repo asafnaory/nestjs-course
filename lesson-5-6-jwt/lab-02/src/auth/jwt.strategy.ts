@@ -23,8 +23,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * we're guaranteed that we're receiving a valid token that we have previously
    * signed and issued to a valid user.
    */
-  async validate(payload: JwtPayload): Promise<any> {
-    const { id } = payload;
+  async validate(
+    payload: JwtPayload,
+  ): Promise<User & { fromValidate: string }> {
+    const { id } = payload; //<=== this is the id field saved in the payload of jwt itself!!
+    console.log(`DEBUG validate: ${JSON.stringify(payload)}`);
     const userFromDb = await this.dbService.getUserById(id);
 
     if (!userFromDb) {

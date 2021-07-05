@@ -15,5 +15,4 @@ export class AuthCredentialsDto {
     message: `Please use a strong Password`,
   })
   readonly password: string;
-  readonly role: UserRole;
 }

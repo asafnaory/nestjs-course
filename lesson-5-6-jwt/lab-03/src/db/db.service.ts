@@ -1,21 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import * as _ from 'lodash';
+import * as bcrypt from 'bcryptjs';
 import { UserRole } from 'src/auth/interfaces/roles.enum';
 import { User } from '../auth/interfaces/user.interface';
 
 @Injectable()
 export class DbService {
-  private readonly db: User[];
+  private db: User[];
 
   constructor() {
+    this.init();
+  }
+
+  async init(): Promise<void> {
+    const password = await this.hashPasswordForFirstUser();
     this.db = [
       {
         id: '1',
         email: 'initial@mail.com',
-        password: 'Aa123456',
-        role: UserRole.ADMIN,
+        password,
+        roles: UserRole.ADMIN,
       },
     ];
+  }
+  
+  async hashPasswordForFirstUser(): Promise<string> {
+    const salt = await bcrypt.genSalt();
+    return await bcrypt.hash('Aa123456', salt);
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {

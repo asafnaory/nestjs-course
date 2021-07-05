@@ -40,7 +40,7 @@ export class AuthController {
 
   @Get('/user')
   @UseGuards(AuthGuard(), RolesGuard) // AuthGuard() is the default of AuthGuard('jwt')
-  @Roles(UserRole.USER)
+  @Roles(UserRole.USER, UserRole.ADMIN)
   getUser(@Req() req, @Body('role') role: UserRole) {
     console.log(`/user - ${JSON.stringify(req.user)}`);
     console.log({ role });
