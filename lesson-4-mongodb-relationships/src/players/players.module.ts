@@ -2,7 +2,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { PlayersController } from './players.controller';
 import { PlayersService } from './players.service';
-import { Player, PlayerSchema,  } from './entities/player.entity';
+import { Player, PlayerSchema } from './entities/player.entity';
 import { Team, TeamSchema } from 'src/teams/entities/team.entity';
 
 @Module({
@@ -10,16 +10,15 @@ import { Team, TeamSchema } from 'src/teams/entities/team.entity';
     MongooseModule.forFeature([
       {
         name: Player.name,
-        schema: PlayerSchema
+        schema: PlayerSchema,
       },
       {
         name: Team.name,
-        schema: TeamSchema
+        schema: TeamSchema,
       },
-
-    ])
+    ]),
   ],
   controllers: [PlayersController],
-  providers: [PlayersService]
+  providers: [PlayersService],
 })
 export class PlayersModule {}
