@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as _ from 'lodash';
-
 export interface User {
   email: string;
   password: string;

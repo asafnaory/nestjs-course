@@ -22,7 +22,7 @@ export class AuthController {
   }
 
   @Get('/user')
-  @UseGuards(AuthGuard()) // it is the defsult of AuthGuard('jwt')
+  @UseGuards(AuthGuard()) // it is the defשult of AuthGuard('jwt')
   test(@Req() req) {
     // console.log(`/user - ${req.user}`);
     return req.user;
