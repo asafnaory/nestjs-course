@@ -5,16 +5,19 @@ import { AppService } from './app.service';
 import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
 
-
 const MONGO_URI = 'mongodb://localhost:27017/nest-crud-demo';
 const mongooseOptions: MongooseModuleOptions = {
   useNewUrlParser: true,
   useFindAndModify: false,
-  useUnifiedTopology: true
-}
+  useUnifiedTopology: true,
+};
 
 @Module({
-  imports: [MongooseModule.forRoot(MONGO_URI,mongooseOptions), PlayersModule, TeamsModule],
+  imports: [
+    MongooseModule.forRoot(MONGO_URI, mongooseOptions),
+    PlayersModule,
+    TeamsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

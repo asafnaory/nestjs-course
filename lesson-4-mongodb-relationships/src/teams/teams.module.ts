@@ -7,19 +7,19 @@ import { PlayerSchema } from '../players/entities/player.entity';
 import { Team, TeamSchema } from './entities/team.entity';
 
 @Module({
-  imports:[
+  imports: [
     MongooseModule.forFeature([
       {
         name: Player.name,
-        schema: PlayerSchema
+        schema: PlayerSchema,
       },
       {
         name: Team.name,
-        schema: TeamSchema
+        schema: TeamSchema,
       },
-    ])
+    ]),
   ],
   controllers: [TeamsController],
-  providers: [TeamsService]
+  providers: [TeamsService],
 })
 export class TeamsModule {}

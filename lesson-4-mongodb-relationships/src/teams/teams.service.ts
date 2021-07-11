@@ -9,43 +9,44 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 
 @Injectable()
 export class TeamsService {
-    constructor(
-        @InjectModel(Team.name) private readonly teamModel: Model<Team>,
-        @InjectModel(Player.name) private readonly playerModel: Model<Player>
-    ){}
+  constructor(
+    @InjectModel(Team.name) private readonly teamModel: Model<Team>,
+    @InjectModel(Player.name) private readonly playerModel: Model<Player>,
+  ) {}
 
-    async getAllTeams(dto: PaginationQueryDto): Promise<Team[]>{     
-        const { offset, limit } = dto; 
-        return await this.teamModel.find().skip(offset).limit(limit)
-    }
+  async getAllTeams(dto: PaginationQueryDto): Promise<Team[]> {
+    const { offset, limit } = dto;
+    return await this.teamModel.find().skip(offset).limit(limit);
+  }
 
-    async getTeamById(id:string): Promise<Team> {
-        const team = await this.teamModel.findById(id).select('-_id');
-        if(!team) {
-            throw new NotFoundException(`team not found id : ${id}`);
-        }
-        return team;
+  async getTeamById(id: string): Promise<Team> {
+    const team = await this.teamModel.findById(id).select('-_id');
+    if (!team) {
+      throw new NotFoundException(`team not found id : ${id}`);
     }
+    return team;
+  }
 
-    async createTeam(createTeamDto: CreateTeamDto): Promise<Team>{
-        return await this.teamModel.create(createTeamDto)
-    }
+  async createTeam(createTeamDto: CreateTeamDto): Promise<Team> {
+    return await this.teamModel.create(createTeamDto);
+  }
 
-    async updateTeam(id:string, updateTeamDto: UpdateTeamDto): Promise<Team> {
-        const options: QueryOptions = {new: true, upsert: true}; 
-        const team = await this.teamModel.findByIdAndUpdate(id, updateTeamDto, options)
-        .select('-__v')
-        return team;
-    }
+  async updateTeam(id: string, updateTeamDto: UpdateTeamDto): Promise<Team> {
+    const options: QueryOptions = { new: true, upsert: true };
+    const team = await this.teamModel
+      .findByIdAndUpdate(id, updateTeamDto, options)
+      .select('-__v');
+    return team;
+  }
 
-    async removeTeam(id:string): Promise<Team>{
-        const team = await this.teamModel.findByIdAndRemove(id);
-        if(!team){
-            throw new NotFoundException(`team not found ${id}`);
-        }
-         team.players.forEach(async (player) => {
-            await this.playerModel.findByIdAndRemove(player.id);
-        })
-        return team;
+  async removeTeam(id: string): Promise<Team> {
+    const team = await this.teamModel.findByIdAndRemove(id);
+    if (!team) {
+      throw new NotFoundException(`team not found ${id}`);
     }
+    team.players.forEach(async (player) => {
+      await this.playerModel.findByIdAndRemove(player.id);
+    });
+    return team;
+  }
 }
