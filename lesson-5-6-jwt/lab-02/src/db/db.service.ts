@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as _ from 'lodash';
+import { find }from 'lodash';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../auth/interfaces/user.interface';
 
@@ -28,11 +28,11 @@ export class DbService {
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return Promise.resolve(_.find(this.db, ['email', email]));
+    return Promise.resolve(find(this.db, ['email', email]));
   }
 
   async getUserById(id: string): Promise<User | undefined> {
-    return Promise.resolve(_.find(this.db, ['id', id]));
+    return Promise.resolve(find(this.db, ['id', id]));
   }
 
   async createUser(user: User): Promise<User> {

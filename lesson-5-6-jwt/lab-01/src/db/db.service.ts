@@ -1,27 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import * as _ from 'lodash';
-export interface User {
-  email: string;
-  password: string;
-  id?: string;
-}
+import { find }from 'lodash';
+import * as bcrypt from 'bcryptjs';
+import { User } from '../auth/interfaces/user.interface';
 
 @Injectable()
 export class DbService {
-  private readonly db;
+  private db: User[];
 
   constructor() {
+    this.init();
+  }
+
+  async init(): Promise<void> {
+    const password = await this.hashPasswordForFirstUser();
     this.db = [
       {
-        id: 1,
+        id: '1',
         email: 'initial@mail.com',
-        password: 'Aa123456',
+        password,
       },
     ];
   }
+  
+  async hashPasswordForFirstUser(): Promise<string> {
+    const salt = await bcrypt.genSalt();
+    return await bcrypt.hash('Aa123456', salt);
+  }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return Promise.resolve(_.find(this.db, ['email', email]));
+    return Promise.resolve(find(this.db, ['email', email]));
+  }
+
+  async getUserById(id: string): Promise<User | undefined> {
+    return Promise.resolve(find(this.db, ['id', id]));
   }
 
   async createUser(user: User): Promise<User> {
@@ -34,5 +45,9 @@ export class DbService {
     };
     this.db.push(newUser);
     return Promise.resolve(newUser);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Promise.resolve(this.db);
   }
 }
