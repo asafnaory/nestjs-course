@@ -7,12 +7,13 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 // bcrypt is a password-hashing function
 import * as bcrypt from 'bcryptjs';
 import { DbService } from '../db/db.service';
+import { User } from './interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
   constructor(private readonly dbService: DbService) {}
 
-  async signup(dto: AuthCredentialsDto): Promise<any> {
+  async signup(dto: AuthCredentialsDto): Promise<User> {
     const { email, password } = dto;
 
     const user = await this.dbService.getUserByEmail(email);
@@ -26,12 +27,10 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log({ salt, hashedPassword });
 
-    const newUser = await this.dbService.createUser({
+    return await this.dbService.createUser({
       email,
       password: hashedPassword,
     });
-
-    return newUser;
   }
 
   async signin(dto: AuthCredentialsDto): Promise<string> {

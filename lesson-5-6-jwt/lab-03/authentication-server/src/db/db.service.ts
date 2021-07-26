@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { find }from 'lodash';
+import { find } from 'lodash';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../auth/interfaces/user.interface';
+import { UserRole } from 'src/auth/interfaces/roles.enum';
 
 @Injectable()
 export class DbService {
@@ -18,10 +19,11 @@ export class DbService {
         id: '1',
         email: 'initial@mail.com',
         password,
+        roles: UserRole.ADMIN,
       },
     ];
   }
-  
+
   async hashPasswordForFirstUser(): Promise<string> {
     const salt = await bcrypt.genSalt();
     return await bcrypt.hash('Aa123456', salt);
