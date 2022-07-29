@@ -11,5 +11,9 @@ export class CreatePlayerDto {
 
   @IsString()
   @IsOptional()
+  readonly agentId?: string;
+
+  @IsString()
+  @IsOptional()
   readonly teamId?: string;
 }
