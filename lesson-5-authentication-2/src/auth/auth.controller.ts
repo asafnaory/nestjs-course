@@ -1,6 +1,8 @@
+import { Agent } from '.prisma/client';
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import { GetAgent } from './decorators/get-user.decorator';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
 @Controller('auth')
@@ -21,8 +23,8 @@ export class AuthController {
 
   @Post('/test')
   @UseGuards(AuthGuard())
-  test(@Req() req) {
-    console.log(req.user);
-    return req.user;
+  test(@GetAgent() agent: Agent): Agent {
+    console.log(agent);
+    return agent;
   }
 }
