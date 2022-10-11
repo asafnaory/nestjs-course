@@ -1,0 +1,22 @@
+.my-message-wrapper {
+    border-style: solid; 
+    margin-bottom: 3px; 
+    padding: 0px 80px 0px 5px; 
+    border-radius: 15px; 
+    background-color: lightblue
+}
+
+.others-message-wrapper {
+    border-style: solid; 
+    margin-bottom: 3px; 
+    padding: 0px 80px 0px 5px; 
+    border-radius: 15px; 
+    background-color: lightgreen 
+}
+.admin-message-wrapper {
+    border-style: solid; 
+    margin-bottom: 3px; 
+    padding: 0px 80px 0px 5px; 
+    border-radius: 15px; 
+    background-color: lightsalmon 
+}

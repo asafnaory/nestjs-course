@@ -1,0 +1,15 @@
+.text-area {
+    width: 600px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.text-area-button {
+    width: 50px;
+    height: 30px;
+    margin-top: 25px;
+    margin-left: 10px;
+}

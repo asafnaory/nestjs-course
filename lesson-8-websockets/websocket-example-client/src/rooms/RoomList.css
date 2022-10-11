@@ -1,0 +1,17 @@
+.local-room-list-wrapper {
+    border-style: solid;
+    width: 300px;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.active-room {
+    border-style: "solid";
+    background-color: lightskyblue;
+
+}
+.inactive-room{
+    border-style: solid;
+    background-color: lightslategray;
+}

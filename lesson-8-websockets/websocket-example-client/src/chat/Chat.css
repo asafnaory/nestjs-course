@@ -1,0 +1,11 @@
+.local-chat-wrapper {
+     border-style: solid; 
+     border-radius: 15px;
+     background-color:white; 
+     overflow-y: scroll;
+}
+
+.rooms-message {
+    width: 1000px; 
+    height: 720px;
+}
