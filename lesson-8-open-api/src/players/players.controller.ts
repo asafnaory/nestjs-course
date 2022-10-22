@@ -17,20 +17,24 @@ import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { IdvalidationPipe } from './pipes/idvalidation.pipe';
 import { Player } from '@prisma/client';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Role } from '@prisma/client';
 import { AddToTeamDto } from './dto/add-to-team.dto';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
+// @ApiTags("players")
 @Controller('players')
 export class PlayersController {
   constructor(private playersService: PlayersService) {}
 
   // https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination
   @Get()
+  // @ApiResponse({status: 403, description: "Forbidden"})
+  @ApiForbiddenResponse()
   async getAllPlayers(
     @Query() paginationQuery: PaginationQueryDto<Player>,
   ): Promise<Player[]> {
@@ -68,6 +72,7 @@ export class PlayersController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async addToTeam(@Body() addToTeamDto: AddToTeamDto) {
+    console.log('addToTeam');
     return await this.playersService.addToTeam(addToTeamDto);
   }
 }

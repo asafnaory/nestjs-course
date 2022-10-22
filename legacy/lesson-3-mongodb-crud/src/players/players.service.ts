@@ -33,7 +33,7 @@ export class PlayersService {
     async updatePlayer(id:string, updatePlayerDto: UpdatePlayerDto): Promise<Player>{
         const options: QueryOptions = {new: true, upsert: true};
         const player = await this.playerModel.findByIdAndUpdate(id, updatePlayerDto, options)
-                                             .select('-__v') // ommit the __v field
+                                             .select('-__v') // omit the __v field
         return player;
     }
 

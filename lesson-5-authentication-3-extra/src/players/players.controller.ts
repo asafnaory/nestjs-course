@@ -8,7 +8,6 @@ import {
   Put,
   Query,
   Req,
-  SetMetadata,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -19,11 +18,7 @@ import { IdvalidationPipe } from './pipes/idvalidation.pipe';
 import { Player } from '@prisma/client';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Role } from '@prisma/client';
 import { AddToTeamDto } from './dto/add-to-team.dto';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-
 
 @Controller('players')
 export class PlayersController {
@@ -64,9 +59,7 @@ export class PlayersController {
   }
 
   @Post('add-to-team')
-  // @UseGuards(AuthGuard())
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard())
   async addToTeam(@Body() addToTeamDto: AddToTeamDto) {
     return await this.playersService.addToTeam(addToTeamDto);
   }
