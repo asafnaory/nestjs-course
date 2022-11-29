@@ -38,7 +38,7 @@ describe('PlayersService', () => {
   describe('getPlayer by id', ()=>{});
   describe('createPlayer by id', ()=>{});
   describe('updatePlayer', ()=>{
-    it('should throw an exeption when player was not found', async ()=>{
+    it('should throw an exception when player was not found', async ()=>{
       // Arrange 
       prisma.player.findUnique = jest.fn().mockReturnValueOnce(null);
       try {
