@@ -17,12 +17,12 @@ export class PlayersService {
   async getAllPlayers(dto: PaginationQueryDto): Promise<Player[]> {
     const { offset, limit } = dto;
 
-    return await this.playerModel.find().skip(offset).limit(limit);
-    // .populate({ path: 'team', select: '-players' }); //exclude redundent data
+    return await this.playerModel.find().skip(offset).limit(limit)
+    .populate({ path: 'team', select: '-players' }); //exclude redundant data
   }
 
   async getPlayerById(id: string): Promise<Player> {
-    const player = await this.playerModel.findById(id);
+    const player = await this.playerModel.findById(id).populate({ path: 'team', select: '-players' });
     // .select('-id first_name last_name ppg')
     // _id is opt-out, all other fields are opt-in
     if (!player) throw new NotFoundException(`Player not found id:'${id}'`);
@@ -45,7 +45,7 @@ export class PlayersService {
     const options: QueryOptions = { new: true, upsert: true };
     const player = await this.playerModel
       .findByIdAndUpdate(id, updatePlayerDto, options)
-      .select('-__v'); // ommit the __v field
+      .select('-__v'); // omit the __v field
     return player;
   }
 
