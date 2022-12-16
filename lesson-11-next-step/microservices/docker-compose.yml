@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+    entrypoint: redis-server --appendonly yes
+    restart: always
+volumes:
+  redis:
