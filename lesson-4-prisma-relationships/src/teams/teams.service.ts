@@ -7,11 +7,11 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Injectable()
 export class TeamsService {
-  constructor(
-    private prisma: PrismaService
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async getAllTeams(paginationQuery: PaginationQueryDto<Team>): Promise<Team[]> {
+  async getAllTeams(
+    paginationQuery: PaginationQueryDto<Team>,
+  ): Promise<Team[]> {
     const { skip, take, cursor, where, orderBy } = paginationQuery;
     return await this.prisma.team.findMany({
       skip,
@@ -19,6 +19,9 @@ export class TeamsService {
       cursor,
       where,
       orderBy,
+      include: {
+        players: true,
+      },
     });
   }
 
@@ -27,12 +30,18 @@ export class TeamsService {
       where: {
         id,
       },
+      include: {
+        players: true,
+      },
     });
   }
 
   async createTeam(createTeamDto: CreateTeamDto): Promise<Team> {
     return await this.prisma.team.create({
       data: createTeamDto,
+      include: {
+        players: true,
+      },
     });
   }
 
@@ -45,8 +54,9 @@ export class TeamsService {
       where: {
         id,
       },
-      data: {
-        ...updateTeamDto,
+      data: updateTeamDto,
+      include: {
+        players: true,
       },
     });
   }
@@ -59,6 +69,9 @@ export class TeamsService {
     return await this.prisma.team.delete({
       where: {
         id,
+      },
+      include: {
+        players: true,
       },
     });
   }

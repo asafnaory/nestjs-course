@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsUUID } from 'class-validator';
 export class CreatePlayerDto {
   @IsString()
   readonly firstName: string;
@@ -9,7 +9,7 @@ export class CreatePlayerDto {
   @IsNumber()
   readonly ppg: number;
 
-  @IsString()
   @IsOptional()
+  @IsUUID()
   readonly teamId?: string;
 }

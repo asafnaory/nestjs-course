@@ -25,7 +25,6 @@ export class TeamsController {
   }
 
   @Get(':id')
-  @UsePipes(IdvalidationPipe)
   async getteamByID(@Param('id') id: string): Promise<Team> {
     return await this.teamsService.getTeamById(id);
   }
@@ -44,7 +43,6 @@ export class TeamsController {
   }
 
   @Delete(':id')
-  @UsePipes(IdvalidationPipe)
   async removeteam(@Param('id') id: string): Promise<Team> {
     return await this.teamsService.removeTeam(id);
   }

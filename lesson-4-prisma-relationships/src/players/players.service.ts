@@ -20,6 +20,9 @@ export class PlayersService {
       cursor,
       where,
       orderBy,
+      include: {
+        team: true,
+      },
     });
   }
   async getPlayerById(id: string): Promise<Player> {
@@ -27,12 +30,18 @@ export class PlayersService {
       where: {
         id,
       },
+      include: {
+        team: true,
+      },
     });
   }
 
   async createPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
     return await this.prisma.player.create({
       data: { ...createPlayerDto },
+      include: {
+        team: true,
+      },
     });
   }
 
@@ -51,6 +60,9 @@ export class PlayersService {
       },
       data: {
         ...updatePlayerDto,
+      },
+      include: {
+        team: true,
       },
     });
   }
