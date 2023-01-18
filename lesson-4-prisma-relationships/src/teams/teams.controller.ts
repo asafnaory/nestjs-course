@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { Team } from '@prisma/client';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { IdvalidationPipe } from 'src/pipes/idvalidation.pipe';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { TeamsService } from './teams.service';
@@ -36,7 +35,7 @@ export class TeamsController {
 
   @Put(':id')
   async updateteam(
-    @Param('id', IdvalidationPipe) id: string,
+    @Param('id') id: string,
     @Body() dto: UpdateTeamDto,
   ): Promise<Team> {
     return await this.teamsService.updateTeam(id, dto);
