@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { connect } from 'http2';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { PaginationDto } from './dto/pagination.dto';
