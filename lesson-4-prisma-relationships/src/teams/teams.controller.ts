@@ -1,48 +1,42 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
-  Param,
   Post,
-  Put,
-  Query,
-  UsePipes,
+  Body,
+  Patch,
+  Param,
+  Delete,
 } from '@nestjs/common';
-import { Team } from '@prisma/client';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { TeamsService } from './teams.service';
 
 @Controller('teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
+
+  @Post()
+  create(@Body() createTeamDto: CreateTeamDto) {
+    return this.teamsService.create(createTeamDto);
+  }
+
   @Get()
-  async getAllteams(@Query() paginationQuery: PaginationQueryDto<Team>): Promise<Team[]> {
-    return await this.teamsService.getAllTeams(paginationQuery);
+  findAll() {
+    return this.teamsService.findAll();
   }
 
   @Get(':id')
-  async getteamByID(@Param('id') id: string): Promise<Team> {
-    return await this.teamsService.getTeamById(id);
+  findOne(@Param('id') id: string) {
+    return this.teamsService.findOne(id);
   }
 
-  @Post()
-  async createteam(@Body() dto: CreateTeamDto): Promise<Team> {
-    return await this.teamsService.createTeam(dto);
-  }
-
-  @Put(':id')
-  async updateteam(
-    @Param('id') id: string,
-    @Body() dto: UpdateTeamDto,
-  ): Promise<Team> {
-    return await this.teamsService.updateTeam(id, dto);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
+    return this.teamsService.update(id, updateTeamDto);
   }
 
   @Delete(':id')
-  async removeteam(@Param('id') id: string): Promise<Team> {
-    return await this.teamsService.removeTeam(id);
+  remove(@Param('id') id: string) {
+    return this.teamsService.remove(id);
   }
 }

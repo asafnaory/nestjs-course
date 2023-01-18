@@ -1,5 +1,13 @@
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, MinLength, IsString, IsArray, ArrayNotEmpty, IsUUID, IsOptional } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MinLength,
+} from 'class-validator';
 
 export class CreateTeamDto {
   @IsNotEmpty()
@@ -9,10 +17,9 @@ export class CreateTeamDto {
   @IsNotEmpty()
   @IsNumber()
   readonly playersAmount: number;
-  
+
   @IsOptional()
   @IsArray()
   @ArrayNotEmpty()
-  @IsUUID(4, {each: true})
-  readonly players: string[];
+  readonly playerIds: Record<'id', string>;
 }

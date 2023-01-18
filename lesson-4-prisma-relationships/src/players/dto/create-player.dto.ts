@@ -1,4 +1,5 @@
-import { IsString, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+
 export class CreatePlayerDto {
   @IsString()
   readonly firstName: string;
