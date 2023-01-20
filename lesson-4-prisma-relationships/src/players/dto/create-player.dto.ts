@@ -12,5 +12,5 @@ export class CreatePlayerDto {
 
   @IsOptional()
   @IsUUID()
-  readonly teamId?: string;
+  readonly teamId: string;
 }

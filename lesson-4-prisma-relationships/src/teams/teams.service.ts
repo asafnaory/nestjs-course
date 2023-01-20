@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { isPrismaError, prismaErrorHandler } from 'src/prisma/prisma.helpers';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { isNestException } from 'src/helpers/helpers';
 
 @Injectable()
 export class TeamsService {
@@ -24,55 +30,84 @@ export class TeamsService {
   }
 
   async findAll() {
-    return await this.prisma.team.findMany();
+    try {
+      return await this.prisma.team.findMany({
+        include: {
+          players: true,
+        },
+      });
+    } catch (e: unknown) {
+      if (isPrismaError(e)) {
+        throw prismaErrorHandler(e);
+      }
+      throw new InternalServerErrorException(e);
+    }
   }
 
   findOne(id: string) {
-    return this.prisma.team.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        players: true,
-      },
-    });
+    try {
+      const team = this.prisma.team.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          players: true,
+        },
+      });
+      if (!team)
+        throw new NotFoundException(`team with id ${id} was not found`);
+
+      return team;
+    } catch (e: unknown) {
+      if (isNestException(e)) throw e;
+      if (isPrismaError(e)) {
+        throw prismaErrorHandler(e);
+      }
+      throw new InternalServerErrorException(e);
+    }
   }
 
   async update(id: string, updateTeamDto: UpdateTeamDto) {
     const { name, playersAmount, playerIds } = updateTeamDto;
-    const team = await this.findOne(id);
-    if (!team) {
-      throw new NotFoundException(`Team with team id ${id} does not exist`);
-    }
-    return this.prisma.team.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        playersAmount,
-        players: {
-          connect: playerIds,
+    try {
+      return await this.prisma.team.update({
+        where: {
+          id,
         },
-      },
-      include: {
-        players: true,
-      },
-    });
+        data: {
+          name,
+          playersAmount,
+          players: {
+            connect: playerIds,
+          },
+        },
+        include: {
+          players: true,
+        },
+      });
+    } catch (e: unknown) {
+      if (isPrismaError(e)) {
+        throw prismaErrorHandler(e);
+      }
+      throw new InternalServerErrorException(e);
+    }
   }
 
   async remove(id: string) {
-    const team = await this.findOne(id);
-    if (!team) {
-      throw new NotFoundException(`Team with team id ${id} does not exist`);
+    try {
+      return await this.prisma.team.delete({
+        where: {
+          id,
+        },
+        include: {
+          players: true,
+        },
+      });
+    } catch (e: unknown) {
+      if (isPrismaError(e)) {
+        throw prismaErrorHandler(e);
+      }
+      throw new InternalServerErrorException(e);
     }
-    return await this.prisma.team.delete({
-      where: {
-        id,
-      },
-      include: {
-        players: true,
-      },
-    });
   }
 }

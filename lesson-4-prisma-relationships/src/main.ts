@@ -7,15 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
-
-  //ValidationPipe: makes use class-validator package and its declarative validation decorators
+  // app.enableShutdownHooks();
   app.useGlobalPipes(
     new ValidationPipe({
-      // implicitly transform query and path parameters based on the expected type.
+      whitelist: true,
       transform: true,
-      // for more examples : https://docs.nestjs.com/techniques/validation
       transformOptions: {
-        //If set to true class-transformer will attempt conversion based on TS reflected type
         enableImplicitConversion: true,
       },
     }),
