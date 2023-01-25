@@ -10,11 +10,11 @@ export function isError(error: unknown): error is Error {
 
 export function handleErrors(e: unknown) {
   if (isNestException(e)) throw e;
-  if (isPrismaError(e)) {
+  else if (isPrismaError(e)) {
     throw prismaErrorHandler(e);
-  }
-  if (isError(e)) {
+  } else if (isError(e)) {
     throw new InternalServerErrorException(e.message);
+  } else {
+    throw new InternalServerErrorException(e);
   }
-  throw new InternalServerErrorException(e);
 }
