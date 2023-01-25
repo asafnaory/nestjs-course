@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { isNestException } from 'src/helpers/helpers';
+import { handleErrors, isError, isNestException } from 'src/helpers/helpers';
 import { isPrismaError, prismaErrorHandler } from 'src/prisma/prisma.helpers';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
@@ -29,10 +29,7 @@ export class PlayersService {
       );
       return responsePlayers;
     } catch (e: unknown) {
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 
@@ -59,11 +56,7 @@ export class PlayersService {
         player.team,
       );
     } catch (e: unknown) {
-      if (isNestException(e)) throw e;
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 
@@ -86,10 +79,7 @@ export class PlayersService {
         player.team,
       );
     } catch (e: unknown) {
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 
@@ -116,10 +106,7 @@ export class PlayersService {
           player.team,
         );
       } catch (e: unknown) {
-        if (isPrismaError(e)) {
-          throw prismaErrorHandler(e);
-        }
-        throw new InternalServerErrorException(e);
+        handleErrors(e);
       }
     }
   }
@@ -141,10 +128,7 @@ export class PlayersService {
         player.team,
       );
     } catch (e: unknown) {
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 }

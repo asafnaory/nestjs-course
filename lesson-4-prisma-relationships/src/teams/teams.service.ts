@@ -4,10 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { isPrismaError, prismaErrorHandler } from 'src/prisma/prisma.helpers';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { isNestException } from 'src/helpers/helpers';
+import { handleErrors } from 'src/helpers/helpers';
 
 @Injectable()
 export class TeamsService {
@@ -37,10 +36,7 @@ export class TeamsService {
         },
       });
     } catch (e: unknown) {
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 
@@ -59,11 +55,7 @@ export class TeamsService {
 
       return team;
     } catch (e: unknown) {
-      if (isNestException(e)) throw e;
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 
@@ -86,10 +78,7 @@ export class TeamsService {
         },
       });
     } catch (e: unknown) {
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 
@@ -104,10 +93,7 @@ export class TeamsService {
         },
       });
     } catch (e: unknown) {
-      if (isPrismaError(e)) {
-        throw prismaErrorHandler(e);
-      }
-      throw new InternalServerErrorException(e);
+      handleErrors(e);
     }
   }
 }
