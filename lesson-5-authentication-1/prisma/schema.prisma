@@ -10,11 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Agent {
+model User {
   id  String @id @default(uuid()) 
   email String @unique
   password String
-  players Player[] @relation()
 }
 
 model Player {
@@ -24,9 +23,6 @@ model Player {
   ppg Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  agent Agent?  @relation(fields: [agentId], references: [id])
-  agentId String?
 
   team Team? @relation(fields: [teamId], references: [id])
   teamId String?

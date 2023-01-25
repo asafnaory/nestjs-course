@@ -3,7 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Agent } from '@prisma/client';
+import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import * as bcrypt from 'bcryptjs';
@@ -12,16 +12,16 @@ import * as bcrypt from 'bcryptjs';
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async signup(dto: AuthCredentialsDto): Promise<Agent> {
+  async signup(dto: AuthCredentialsDto): Promise<User> {
     const { email, password } = dto;
 
-    const agent = await this.prisma.agent.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
-    if (agent) {
-      // agent already exists
+    if (user) {
+      // user already exists
       throw new ConflictException('User with that email already exists');
     }
     const salt = await bcrypt.genSalt();
@@ -29,7 +29,7 @@ export class AuthService {
 
     console.log({ salt, hashedPassword });
 
-    const newAgent = await this.prisma.agent.create({
+    const newAgent = await this.prisma.user.create({
       data: {
         email,
         password: hashedPassword,
@@ -37,22 +37,23 @@ export class AuthService {
     });
 
     return newAgent;
+    
   }
   async signin(dto: AuthCredentialsDto): Promise<string> {
     const { email, password } = dto;
-    const agent = await this.prisma.agent.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    //if no agent found...
-    if (!agent) {
+    //if no user found...
+    if (!user) {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
     // check if the password is valid
-    const validPassword = await bcrypt.compare(password, agent.password);
+    const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       throw new UnauthorizedException('Wrong credentials...');
     }
