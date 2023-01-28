@@ -1,4 +1,3 @@
-import { Agent } from '.prisma/client';
 import {
   Body,
   Controller,
@@ -11,10 +10,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { GetAgent } from './decorators/get-user.decorator';
+import { GetUser } from './decorators/get-user.decorator';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { Response } from 'express';
 import JwtRefreshGuard from './jwt.refresh.guard';
+import { User } from '@prisma/client';
+import JwtAccessGuard from './guards/jwt.access.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -27,42 +28,49 @@ export class AuthController {
 
   @Post('/signin')
   async signin(@Body() dto: AuthCredentialsDto, @Res() res: Response) {
-    const { accessTokenCookie, refreshTokenCookie, agent } =
+    const { accessTokenCookieDetails, refreshTokenCookieDetails, user } =
       await this.authService.signin(dto);
 
-    res.setHeader('Set-Cookie', [
-      accessTokenCookie.cookie,
-      refreshTokenCookie.cookie,
-    ]);
-    
-    return res.json(agent);
-  }
-
-  @UseGuards(JwtRefreshGuard)
-  @Get('/refresh')
-  async refresh(@GetAgent() user: Agent, @Res() res: Response) {
-    console.log('refresh, user.id:', user.id);
-
-    const { cookie } = await this.authService.createAccessTokenCookie(user.id);
-    console.log('refresh, cookie:', cookie);
-    res.setHeader('Set-Cookie', cookie);
+    res.cookie('Authentication', accessTokenCookieDetails.token, {
+      httpOnly: true,
+      maxAge: accessTokenCookieDetails.maxAge,
+      sameSite: accessTokenCookieDetails.sameSite,
+    });
+    res.cookie('Refresh', refreshTokenCookieDetails.token, {
+      httpOnly: true,
+      maxAge: refreshTokenCookieDetails.maxAge,
+      sameSite: refreshTokenCookieDetails.sameSite,
+    });
 
     return res.json(user);
   }
 
-  @UseGuards(AuthGuard())
+  @UseGuards(JwtRefreshGuard)
+  @Get('/refresh')
+  async refresh(@GetUser() user: User, @Res() res: Response) {
+    console.log('refresh, user.id:', user.id);
+
+    const { token, maxAge, sameSite } =
+      await this.authService.createAccessTokenCookie(user.id);
+    console.log('refresh, token:', token);
+    res.cookie('Refresh', token, { httpOnly: true, maxAge, sameSite });
+
+    return res.json(user);
+  }
+
+  @UseGuards(JwtAccessGuard)
   @Get('/signout')
   @HttpCode(200)
-  async signOut(@GetAgent() user: Agent, @Res() res: Response) {
-    await this.authService.removeUserRefreshToken(user.id);
+  async signOut(@GetUser() user: User, @Res() res: Response) {
+    const updatedUser = await this.authService.removeUserRefreshToken(user.id);
     res.setHeader('Set-Cookie', this.authService.getSignOutCookies());
-    return;
+    return res.json(updatedUser);
   }
 
   @Post('/test')
-  @UseGuards(AuthGuard())
-  test(@GetAgent() agent: Agent): Agent {
-    console.log(agent);
-    return agent;
+  @UseGuards(JwtAccessGuard)
+  test(@GetUser() user: User): User {
+    console.log(user);
+    return user;
   }
 }

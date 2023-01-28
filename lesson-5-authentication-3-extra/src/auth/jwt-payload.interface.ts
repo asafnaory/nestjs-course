@@ -1,16 +1,17 @@
-import { Agent } from "@prisma/client";
+import { User } from '@prisma/client';
 
 export interface JwtPayload {
-    id: string;
-  }
+  id: string;
+}
 
-  export interface TokenCookie {
-    cookie: string;
-    token: string
-  }
+export interface TokenCookie {
+  token: string;
+  maxAge: number;
+  sameSite: boolean | 'strict' | 'lax' | 'none';
+}
 
-  export interface UserTokens {
-    agent: Agent;
-    accessTokenCookie: TokenCookie;
-    refreshTokenCookie: TokenCookie;
-  }
+export interface UserTokens {
+  user: User;
+  accessTokenCookieDetails: TokenCookie;
+  refreshTokenCookieDetails: TokenCookie;
+}

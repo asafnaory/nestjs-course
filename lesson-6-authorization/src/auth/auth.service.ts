@@ -3,7 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Agent, Role } from '@prisma/client';
+import { User, Role } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import * as bcrypt from 'bcryptjs';
@@ -18,16 +18,16 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signup(dto: AuthCredentialsDto): Promise<Agent> {
+  async signup(dto: AuthCredentialsDto): Promise<User> {
     const { email, password } = dto;
 
-    const agent = await this.prisma.agent.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
-    if (agent) {
-      // agent already exists
+    if (user) {
+      // user already exists
       throw new ConflictException('User with that email already exists');
     }
     const salt = await bcrypt.genSalt();
@@ -35,7 +35,7 @@ export class AuthService {
 
     console.log({ salt, hashedPassword });
 
-    const newAgent = await this.prisma.agent.create({
+    const newAgent = await this.prisma.user.create({
       data: {
         email,
         password: hashedPassword,
@@ -46,24 +46,24 @@ export class AuthService {
   }
   async signin(dto: AuthCredentialsDto): Promise<{ accessToken: string }> {
     const { email, password } = dto;
-    const agent = await this.prisma.agent.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    //if no agent found...
-    if (!agent) {
+    //if no user found...
+    if (!user) {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
     // check if the password is valid
-    const validPassword = await bcrypt.compare(password, agent.password);
+    const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       throw new UnauthorizedException('Wrong credentials...');
     }
 
-    const payload: JwtPayload = { id: agent.id };
+    const payload: JwtPayload = { id: user.id };
     const accessToken = await this.jwtService.sign(payload);
 
     return { accessToken };
@@ -71,8 +71,8 @@ export class AuthService {
     // return 'OK';
   }
 
-  async userToAdmin(id): Promise<Agent> {
-    return await this.prisma.agent.update({
+  async userToAdmin(id): Promise<User> {
+    return await this.prisma.user.update({
       where: {
         id,
       },

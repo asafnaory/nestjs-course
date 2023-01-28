@@ -2,10 +2,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
-import { jwtConstants } from './constants';
-import { AuthService } from './auth.service';
-import { JwtPayload } from './jwt-payload.interface';
-import { Agent } from '@prisma/client';
+import { jwtConstants } from '../constants';
+import { AuthService } from '../auth.service';
+import { JwtPayload } from '../jwt-payload.interface';
+import { User } from '@prisma/client';
 
 
 @Injectable()
@@ -25,13 +25,13 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     });
   }
 
-  async validate(request: Request, payload: JwtPayload): Promise<Agent> {
+  async validate(request: Request, payload: JwtPayload): Promise<User> {
     const refreshToken = request.cookies?.Refresh;
-    const agent = await this.authService.getUserIfRefreshTokenMatches(
+    const user = await this.authService.getUserIfRefreshTokenMatches(
       refreshToken,
       payload.id,
     );
-    if (!agent) throw new UnauthorizedException();
-    return agent;
+    if (!user) throw new UnauthorizedException();
+    return user;
   }
 }
