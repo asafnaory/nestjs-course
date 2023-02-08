@@ -4,7 +4,6 @@ import {
   Get,
   HttpCode,
   Post,
-  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -16,16 +15,18 @@ import { Response } from 'express';
 import JwtRefreshGuard from './jwt.refresh.guard';
 import { User } from '@prisma/client';
 import JwtAccessGuard from './guards/jwt.access.guard';
+import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('/signup')
   async signup(@Body() dto: AuthCredentialsDto) {
     return this.authService.signup(dto);
   }
-
+  @Public()
   @Post('/signin')
   async signin(@Body() dto: AuthCredentialsDto, @Res() res: Response) {
     const { accessTokenCookieDetails, refreshTokenCookieDetails, user } =
@@ -42,18 +43,19 @@ export class AuthController {
       sameSite: refreshTokenCookieDetails.sameSite,
     });
 
+    console.log(user);
     return res.json(user);
   }
-
+  // @Public()
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
   async refresh(@GetUser() user: User, @Res() res: Response) {
     console.log('refresh, user.id:', user.id);
 
     const { token, maxAge, sameSite } =
-      await this.authService.createAccessTokenCookie(user.id);
-    console.log('refresh, token:', token);
-    res.cookie('Refresh', token, { httpOnly: true, maxAge, sameSite });
+    await this.authService.createAccessTokenCookie(user.id);
+    console.log('authentication, token:', token);
+    res.cookie('Authentication', token, { httpOnly: true, maxAge, sameSite });
 
     return res.json(user);
   }

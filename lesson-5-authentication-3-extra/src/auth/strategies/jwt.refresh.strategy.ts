@@ -7,16 +7,26 @@ import { AuthService } from '../auth.service';
 import { JwtPayload } from '../jwt-payload.interface';
 import { User } from '@prisma/client';
 
-
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh-token',
 ) {
   constructor(private readonly authService: AuthService) {
+    // super({
+    //   jwtFromRequest: ExtractJwt.fromExtractors([
+    //     (request: Request) => {
+    //       console.log(request?.cookies?.Refresh);
+    //       return request?.cookies?.Refresh;
+    //     },
+    //   ]),
+    //   secretOrKey: jwtConstants.REFRESH_TOKEN_SECRET,
+    //   passReqToCallback: true,
+    // });
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
+          console.log(request?.cookies?.Refresh);
           return request?.cookies?.Refresh;
         },
       ]),

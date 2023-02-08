@@ -5,6 +5,7 @@ import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
+// import { AuthGuard } from './auth/guards/auth.gaurd';
 import { AuthGuard } from '@nestjs/passport';
 
 @Module({
@@ -13,8 +14,9 @@ import { AuthGuard } from '@nestjs/passport';
   providers: [
     AppService,
     // {
-    //   provide: APP_GUARD,
-    //   useClass: AuthGuard(),
+    // provide: APP_GUARD,
+      // useClass: AuthGuard(),
+    // useClass: AuthGuard,
     // },
   ],
 })

@@ -1,5 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { AppModule } from './app.module';
 import { PrismaService } from './prisma/prisma.service';
@@ -20,8 +20,6 @@ async function bootstrap() {
       },
     }),
   );
-
-  // app.useGlobalGuards(AuthGuard());
   await app.listen(3000);
 }
 bootstrap();

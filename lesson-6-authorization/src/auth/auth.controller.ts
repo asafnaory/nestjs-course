@@ -33,6 +33,7 @@ export class AuthController {
   }
 
   //For testing only
+  @Public()
   @Put('/basic-to-admin')
   async basicToAdmin(@Body() { id }: UserToAdminDto) {
     this.authService.userToAdmin(id);

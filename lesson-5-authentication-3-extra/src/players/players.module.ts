@@ -1,15 +1,11 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { AuthModule } from 'src/auth/auth.module';
-import { jwtConstants } from 'src/auth/constants';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { PlayersController } from './players.controller';
 import { PlayersService } from './players.service';
+import { PlayersController } from './players.controller';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [PrismaModule],
   controllers: [PlayersController],
-  providers: [PlayersService, PrismaService],
+  providers: [PlayersService],
 })
 export class PlayersModule {}
