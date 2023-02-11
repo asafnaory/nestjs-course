@@ -13,16 +13,6 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
   'jwt-refresh-token',
 ) {
   constructor(private readonly authService: AuthService) {
-    // super({
-    //   jwtFromRequest: ExtractJwt.fromExtractors([
-    //     (request: Request) => {
-    //       console.log(request?.cookies?.Refresh);
-    //       return request?.cookies?.Refresh;
-    //     },
-    //   ]),
-    //   secretOrKey: jwtConstants.REFRESH_TOKEN_SECRET,
-    //   passReqToCallback: true,
-    // });
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {

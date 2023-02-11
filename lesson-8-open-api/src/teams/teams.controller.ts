@@ -9,6 +9,7 @@ import {
   Query,
   UsePipes,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Team } from '@prisma/client';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { IdvalidationPipe } from '../pipes/idvalidation.pipe';
@@ -16,6 +17,7 @@ import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { TeamsService } from './teams.service';
 
+@ApiTags("teams")
 @Controller('teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}

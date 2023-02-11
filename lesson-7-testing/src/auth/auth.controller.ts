@@ -1,4 +1,4 @@
-import { Agent } from '.prisma/client';
+import { User } from '.prisma/client';
 import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
@@ -27,12 +27,13 @@ export class AuthController {
 
   @Post('/test')
   @UseGuards(AuthGuard())
-  test(@GetAgent() agent: Agent): Agent {
-    console.log(agent);
-    return agent;
+  test(@GetAgent() user: User): User {
+    console.log(user);
+    return user;
   }
 
   //For testing only
+  @Public()
   @Put('/basic-to-admin')
   async basicToAdmin(@Body() { id }: UserToAdminDto) {
     this.authService.userToAdmin(id);

@@ -5,19 +5,19 @@ import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
-// import { AuthGuard } from './auth/guards/auth.gaurd';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from './auth/guards/auth.gaurd';
+// import { AuthGuard } from '@nestjs/passport';
 
 @Module({
   imports: [PlayersModule, TeamsModule, AuthModule],
   controllers: [AppController],
   providers: [
     AppService,
-    // {
-    // provide: APP_GUARD,
+    {
+      provide: APP_GUARD,
       // useClass: AuthGuard(),
-    // useClass: AuthGuard,
-    // },
+      useClass: AuthGuard,
+    },
   ],
 })
 export class AppModule {}

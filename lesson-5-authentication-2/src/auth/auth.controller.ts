@@ -1,5 +1,5 @@
 import { User } from '.prisma/client';
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, SetMetadata, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorators/get-user.decorator';
@@ -24,7 +24,7 @@ export class AuthController {
   }
 
   @Post('/test')
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   test(@GetUser() user: User): User {
     console.log(user);
     return user;
