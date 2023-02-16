@@ -1,7 +1,5 @@
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Player } from '@prisma/client';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { PrismaModule } from '../prisma/prisma.module';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { ResponsePlayerDto } from './dto/response-player.dto';
@@ -9,7 +7,6 @@ import { UpdatePlayerDto } from './dto/update-player.dto';
 import { PlayersController } from './players.controller';
 import { PlayersService } from './players.service';
 
-const pagination: Partial<PaginationQueryDto<Player>> = {};
 const MockPlayer: Partial<ResponsePlayerDto> = {
   firstName: 'Mock firstName',
   lastName: 'Mock lastName',

@@ -7,7 +7,7 @@ import { RolesGuard } from '../src//auth/guards/roles/roles.guard';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  const MockAuthGuard = { canActivate: jest.fn(() => true) };
+  const MockAuthGuard = { canActivate: jest.fn().mockReturnValueOnce(true) };
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

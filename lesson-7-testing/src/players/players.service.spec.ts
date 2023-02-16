@@ -13,7 +13,7 @@ type DeepPartial<T> = T extends object
     }
   : T;
 
-const createMockService = (): DeepPartial<PrismaService> => ({
+const createMockPrismaService = (): DeepPartial<PrismaService> => ({
   player: {
     findUnique: jest.fn(),
     update: jest.fn(),
@@ -38,7 +38,7 @@ describe('PlayersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlayersService,
-        { provide: PrismaService, useValue: createMockService() },
+        { provide: PrismaService, useValue: createMockPrismaService() },
       ],
     }).compile();
 

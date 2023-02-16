@@ -82,8 +82,8 @@ describe('[Feature] Players -/players', () => {
     })
       .overrideProvider(PrismaService)
       .useValue(mockPrismaService)
-      .overrideProvider(AuthGuard)
-      .useClass(MockAuthGuard)
+      // .overrideProvider(AuthGuard)
+      // .useClass(MockAuthGuard)
       .compile();
 
     app = moduleFixture.createNestApplication();
@@ -107,11 +107,6 @@ describe('[Feature] Players -/players', () => {
 
     jwt = signinResponse.body.accessToken;
   });
-
-  // it('should update user info', async () => {
-  //   const loginRes = await request(app.getHttpServer())
-  //     .post('/auth/signin')
-  //     .send(mockLoginUser);
 
   it('Get All [GET /]', () => {
     return request(app.getHttpServer())
