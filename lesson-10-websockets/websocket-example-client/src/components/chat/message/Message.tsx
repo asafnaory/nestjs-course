@@ -1,4 +1,4 @@
-import { Message } from "../../types-and-consts";
+import { Message } from "../../../types-and-consts";
 import "./Message.css";
 
 export const SingleMessage = (props: { message: Message, username: string }) => {

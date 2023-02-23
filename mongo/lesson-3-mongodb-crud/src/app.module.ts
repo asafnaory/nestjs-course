@@ -9,7 +9,7 @@ const MONGO_URI = 'mongodb://localhost:27017/nest-crud-demo';
 const mongooseOptions: MongooseModuleOptions = {
   // old parser is deprecated
   useNewUrlParser: true,
-  // inorder to use useFindAndModify
+  // in order to use useFindAndModify
   useFindAndModify: false,
   //opt in to using the new topology engine
   useUnifiedTopology: true

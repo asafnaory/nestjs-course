@@ -1,13 +1,21 @@
-
-import io from "socket.io-client";
-
-
-
-export function getUserName(): string {
-  const username = prompt("Please enter your name", "my username");
-  return username || 'my username';
+import io, { Socket } from "socket.io-client";
+export interface Message {
+  sender: string;
+  room: Rooms;
+  message: string;
 }
-export const username = `${getUserName()}`;
+
+export type RoomsMessages = Record<Rooms, Message[]>;
+
+export enum SocketEventTypes {
+  CONNECT = "connect",
+  SERVER_MESSAGE_EVENT = "serverMessagesEvent",
+  CLIENT_MESSAGE_EVENT = "clientMessagesEvent",
+  JOINED_ROOM = "joinedRoom",
+  LEFT_ROOM = "leftRoom",
+  JOIN_ROOM = "joinRoom",
+  LEAVE_ROOM = "leaveRoom",
+}
 
 export enum Rooms {
   GENERAL = "general",
@@ -16,20 +24,10 @@ export enum Rooms {
 }
 
 export const roomNameList = [Rooms.GENERAL, Rooms.TYPESCRIPT, Rooms.NESTJS];
-export interface Message {
-  sender: string;
-  room: string;
-  message: string;
-}
 
-export type RoomMembership = Record<Rooms, boolean>;
-export type RoomsMessages = Record<Rooms, Message[]>;
-
-
-let mySocket: any; 
-
+let mySocket: Socket;
 export function getMySocket() {
-  if(!mySocket){
+  if (!mySocket) {
     mySocket = io("http://localhost:8080/chat");
     return mySocket;
   }

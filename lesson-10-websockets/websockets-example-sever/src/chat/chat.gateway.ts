@@ -1,41 +1,60 @@
-import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
+import { SocketEventTypes } from 'src/chat/events/events.enum';
 
 @WebSocketGateway({ namespace: '/chat', cors: true })
-export class ChatGateway {
+export class ChatGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
+{
   @WebSocketServer() wss: Server;
-  private logger: Logger = new Logger('ChatGateway');
 
-  @SubscribeMessage('chatToServer')
+  afterInit(_: any) {
+    console.log(`server has started`);
+  }
+  handleDisconnect(@ConnectedSocket() socket: Socket) {
+    console.log(`client ${socket.id} is Disconnect`);
+  }
+  handleConnection(@ConnectedSocket() socket: Socket, _: any[]) {
+    console.log(`client ${socket.id} is Connected`);
+  }
+
+  @SubscribeMessage(SocketEventTypes.SERVER_MESSAGE_EVENT)
   handleMessage(
-    @ConnectedSocket() socket: Socket,
     @MessageBody() message: { sender: string; room: string; message: string },
   ): void {
-    this.wss.to(message.room).emit('chatToClient', message);
+    // throw new WsException('Some Error');
+    this.wss
+      .to(message.room)
+      .emit(SocketEventTypes.CLIENT_MESSAGE_EVENT, message);
   }
-  @SubscribeMessage('joinRoom')
+  @SubscribeMessage(SocketEventTypes.JOIN_ROOM)
   handleJoinRoom(
     @ConnectedSocket() socket: Socket,
     @MessageBody() requestToJoinRoomInfo: { room: string; user: string },
   ) {
     const { room, user } = requestToJoinRoomInfo;
+    console.log(`${user} has requested to join room ${room}`);
     socket.join(room);
-    socket.to(room).emit('joinedRoom', { room, user });
+    socket.to(room).emit(SocketEventTypes.JOINED_ROOM, { room, user });
   }
-  @SubscribeMessage('leaveRoom')
+  @SubscribeMessage(SocketEventTypes.LEAVE_ROOM)
   handleLeaveRoom(
     @ConnectedSocket() socket: Socket,
     @MessageBody() requestToLeaveRoomInfo: { room: string; user: string },
   ) {
     const { room, user } = requestToLeaveRoomInfo;
+    console.log(`${user} has requested to leave room ${room}`);
     socket.leave(room);
-    socket.to(room).emit('leftRoom', { room, user });
+    socket.to(room).emit(SocketEventTypes.LEFT_ROOM, { room, user });
   }
 }

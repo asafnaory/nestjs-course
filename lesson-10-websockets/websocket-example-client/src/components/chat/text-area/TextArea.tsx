@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { getMySocket } from "../../types-and-consts";
+import { getMySocket, SocketEventTypes } from "../../../types-and-consts";
 import "./TextArea.css";
 
-const socket = getMySocket();
-
-export const TextArea = (props: { username: string, room: string }) => {
+export const TextArea = (props: { username: string; room: string }) => {
+  const socket = getMySocket();
   const { username, room } = props;
   const [messageText, setMessageText] = useState<string>("");
 
@@ -17,10 +16,7 @@ export const TextArea = (props: { username: string, room: string }) => {
           value={messageText}
           placeholder="What do you want to say?"
         ></textarea>
-        <button
-          className="text-area-button"
-          type="submit"
-        >
+        <button className="text-area-button" type="submit">
           send
         </button>
       </div>
@@ -32,7 +28,7 @@ export const TextArea = (props: { username: string, room: string }) => {
   }
   function sendMessage(event: any) {
     event.preventDefault();
-    socket.emit("chatToServer", {
+    socket.emit(SocketEventTypes.SERVER_MESSAGE_EVENT, {
       sender: username,
       room: room,
       message: messageText,

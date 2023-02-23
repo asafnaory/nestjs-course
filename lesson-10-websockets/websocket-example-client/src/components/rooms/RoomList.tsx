@@ -1,7 +1,7 @@
-import { Rooms } from "../types-and-consts";
+import { Rooms } from "../../types-and-consts";
 import "./RoomList.css";
 
-export const RoomList = (props: {
+const RoomList = (props: {
   rooms: string[];
   setActiveRoomHandler: (room: Rooms) => void;
   activeRoom: string;
@@ -9,11 +9,13 @@ export const RoomList = (props: {
   const { rooms, setActiveRoomHandler, activeRoom } = props;
   return (
     <div className="local-room-list-wrapper">
-      {rooms.map((room, index) => {
+      {rooms.map((room) => {
         return (
           <button
+            key={crypto.randomUUID()}
             onClick={() => setActiveRoomHandler(room as Rooms)}
-            className={room === activeRoom ? "active-room" : "inactive-room"} >
+            className={room === activeRoom ? "active-room" : "inactive-room"}
+          >
             <h4>{room}</h4>
           </button>
         );
@@ -21,3 +23,5 @@ export const RoomList = (props: {
     </div>
   );
 };
+
+export default RoomList;
