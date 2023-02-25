@@ -32,7 +32,6 @@ export class ChatGateway
   handleMessage(
     @MessageBody() message: { sender: string; room: string; message: string },
   ): void {
-    // throw new WsException('Some Error');
     this.wss
       .to(message.room)
       .emit(SocketEventTypes.CLIENT_MESSAGE_EVENT, message);

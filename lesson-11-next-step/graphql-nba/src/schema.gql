@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Player {
+  id: ID!
+  name: String!
+  position: String!
+  hight: String!
+  ppg: String!
+  imageUrl: String!
+  active: Boolean!
+  faceImageUrl: String!
+  team: Team!
+}
+
+type Team {
+  id: ID!
+  name: String!
+  teamColor: String!
+  teamLogo: String!
+  players: [Player!]!
+}
+
+type Query {
+  player(id: String!): Player!
+  players: [Player!]!
+  teams: [Team!]!
+  team(id: String!): Team!
+}
+
+type Mutation {
+  createPlayer(createPlayerInput: CreatePlayerInput!): Player!
+  updatePlayer(updatePlayerInput: UpdatePlayerInput!, id: String!): Player!
+  deletePlayer(id: String!): Player!
+  createTeam(createTeamInput: CreateTeamInput!): Team!
+  assignPlayersToTeam(assignPlayersToTeamInput: AssignPlayersToTeamInput!): Team!
+}
+
+input CreatePlayerInput {
+  name: String!
+  position: String!
+  hight: String!
+  ppg: String!
+  imageUrl: String!
+  active: Boolean!
+  faceImageUrl: String!
+}
+
+input UpdatePlayerInput {
+  name: String
+  position: String
+  hight: String
+  ppg: String
+  imageUrl: String
+  active: Boolean
+  faceImageUrl: String
+}
+
+input CreateTeamInput {
+  name: String!
+  teamColor: String!
+  teamLogo: String!
+}
+
+input AssignPlayersToTeamInput {
+  playerId: ID!
+  teamId: ID!
+}

@@ -32,9 +32,10 @@ export class OrdersService {
     };
     this.orders.push(order);
 
-    const orderCreatedEvent = new OrderCreatedEvent();
-    orderCreatedEvent.name = order.name;
-    orderCreatedEvent.description = order.description;
+    const orderCreatedEvent = new OrderCreatedEvent(
+      order.name,
+      order.description,
+    );
     this.eventEmitter.emit('order.created', orderCreatedEvent);
 
     return order;

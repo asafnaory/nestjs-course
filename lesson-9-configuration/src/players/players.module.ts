@@ -7,7 +7,7 @@ import playersConfig from './config/players.config';
 
 @Module({
   imports: [
-    // ConfigModule.forFeature(playersConfig), 
+    ConfigModule.forFeature(playersConfig), 
     PrismaModule],
   controllers: [PlayersController],
   providers: [PlayersService],

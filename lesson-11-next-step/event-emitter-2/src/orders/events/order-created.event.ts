@@ -1,4 +1,3 @@
 export class OrderCreatedEvent {
-  name: string;
-  description: string;
+  constructor(public readonly name, public readonly description) {}
 }
