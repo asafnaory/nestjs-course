@@ -1,4 +1,3 @@
-import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import {
   Args,
   Query,
@@ -7,7 +6,6 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { RandomGuard } from 'src/random.guard';
 import { TeamsService } from 'src/teams/teams.service';
 import { CreatePlayerInput } from './dto/create-player.input';
 import { UpdatePlayerInput } from './dto/update-player.input';

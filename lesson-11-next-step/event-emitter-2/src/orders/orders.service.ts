@@ -37,7 +37,8 @@ export class OrdersService {
       order.description,
     );
     this.eventEmitter.emit('order.created', orderCreatedEvent);
-
+    console.log('after order.created');
+    // this.eventEmitter.removeAllListeners();
     return order;
   }
 }
