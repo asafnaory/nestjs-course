@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
-import { AuthModule } from './auth/auth.module';
+import { IamModule } from './iam/iam.module';
 
 @Module({
-  imports: [PlayersModule, TeamsModule, AuthModule],
+  imports: [PlayersModule, TeamsModule, IamModule],
   controllers: [AppController],
   providers: [AppService],
 })

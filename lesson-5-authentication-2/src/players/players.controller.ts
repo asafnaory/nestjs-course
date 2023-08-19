@@ -7,14 +7,18 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResponsePlayerDto } from './dto/response-player.dto';
 import { PaginationDto } from './dto/pagination.dto';
+import { AccessTokenGuard } from 'src/iam/guards/access-token.guard';
+import { Public } from 'src/iam/decorators/public.decorator';
 
 @Controller('players')
+// @Public()
 export class PlayersController {
   constructor(private playersService: PlayersService) {}
 
