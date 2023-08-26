@@ -15,7 +15,6 @@ import { JwtModule } from '@nestjs/jwt';
     AppService,
     {
       provide: APP_GUARD,
-      // useClass: AuthGuard(),
       useClass: AccessTokenGuard,
     },
   ],

@@ -3,19 +3,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlayersModule } from './players/players.module';
 import { TeamsModule } from './teams/teams.module';
-import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
-import JwtAccessGuard from './auth/guards/jwt.access.guard';
+import { IamModule } from './iam/iam.module';
+import { AccessTokenGuard } from './iam/guards/access-token.guard';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [PlayersModule, TeamsModule, AuthModule],
+  imports: [PlayersModule, TeamsModule, IamModule, JwtModule],
   controllers: [AppController],
   providers: [
     AppService,
-    // {
-    // provide: APP_GUARD,
-    // useClass: JwtAccessGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
   ],
 })
 export class AppModule {}

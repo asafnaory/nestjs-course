@@ -47,7 +47,7 @@ export class AuthController {
     console.log(user);
     return res.json(user);
   }
-  // @Public()
+  @Public()
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
   async refresh(@GetUser() user: User, @Res() res: Response) {
