@@ -14,7 +14,7 @@ import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResponsePlayerDto } from './dto/response-player.dto';
 import { PaginationDto } from './dto/pagination.dto';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { Roles } from '../auth-legacy/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 
 // @Roles(Role.BASIC)

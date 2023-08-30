@@ -13,9 +13,7 @@ import { AuthenticationService } from './authentication.service';
 import { GetUser } from '../decorators/get-user.decorator';
 import { User } from '@prisma/client';
 import { Public } from '../decorators/public.decorator';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { Response } from 'express';
-import JwtRefreshGuard from 'src/auth/jwt.refresh.guard';
 import { RefreshTokenGuard } from '../guards/refresh-token.guard';
 
 @Controller('authentication')

@@ -14,9 +14,9 @@ import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResponsePlayerDto } from './dto/response-player.dto';
 import { PaginationDto } from './dto/pagination.dto';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Roles } from 'src/auth-legacy/decorators/roles.decorator';
 import { Role } from '@prisma/client';
+import { RolesGuard } from 'src/iam/guards/roles.guard';
 
 @Roles(Role.BASIC)
 @Controller('players')
@@ -24,6 +24,7 @@ export class PlayersController {
   constructor(private playersService: PlayersService) {}
 
   @Get()
+  @UseGuards(RolesGuard)
   getAllPlayers(
     @Query() pagination: PaginationDto,
   ): Promise<ResponsePlayerDto[]> {

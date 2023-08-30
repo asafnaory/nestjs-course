@@ -5,10 +5,6 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // ValidationPipe: makes use class-validator package and its declarative validation decorators
-  // app.useGlobalGuards(new (AuthGuard('jwt')));
-  // const reflector = app.get(Reflector);
-  // app.useGlobalGuards(new AuthGuard(reflector));
 
   app.useGlobalPipes(
     new ValidationPipe({

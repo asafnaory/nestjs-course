@@ -6,7 +6,6 @@ import { handleErrors } from 'src/helpers/helpers';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './consts';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthenticationService {
