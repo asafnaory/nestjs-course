@@ -10,8 +10,8 @@ export class ResponsePlayerDto {
   private lastName: string;
   @ApiProperty({ description: 'points per game', example: '23' })
   private ppg: number;
-  @ApiProperty({ description: 'Plyers team id', example: '1' })
-  private team?: Team;
+  // @ApiProperty({ description: 'Plyers team id', example: '1' })
+  // private team?: Team;
 
   constructor(
     id: string,
@@ -24,6 +24,6 @@ export class ResponsePlayerDto {
     this.firstName = firstName;
     this.lastName = lastName;
     this.ppg = ppg;
-    this.team = team;
+    // this.team = team;
   }
 }

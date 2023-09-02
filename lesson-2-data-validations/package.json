@@ -29,7 +29,9 @@
     "class-validator": "^0.13.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "zod": "^3.22.2",
+    "zod-validation-error": "^1.5.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",

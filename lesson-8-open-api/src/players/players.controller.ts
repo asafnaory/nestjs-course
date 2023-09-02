@@ -8,8 +8,9 @@ import {
   Put,
   Query,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
-import { CreatePlayerDto } from './dto/create-player.dto';
+// import { CreatePlayerDto } from './dto/create-player.dto';
 import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResponsePlayerDto } from './dto/response-player.dto';
@@ -17,6 +18,7 @@ import { PaginationDto } from './dto/pagination.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreatePlayerDto } from './dto/create-player.dto';
 
 // @Roles(Role.BASIC)
 	

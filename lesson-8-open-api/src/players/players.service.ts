@@ -52,7 +52,7 @@ export class PlayersService {
         player.firstName,
         player.lastName,
         player.ppg,
-        player.team,
+        // player.team,
       );
     } catch (e: unknown) {
       if (isNestException(e)) throw e;
@@ -79,7 +79,7 @@ export class PlayersService {
         player.firstName,
         player.lastName,
         player.ppg,
-        player.team,
+        // player.team,
       );
     } catch (e: unknown) {
       handleErrors(e);
@@ -106,7 +106,7 @@ export class PlayersService {
           player.firstName,
           player.lastName,
           player.ppg,
-          player.team,
+          // player.team,
         );
       } catch (e: unknown) {
         handleErrors(e);
@@ -128,7 +128,7 @@ export class PlayersService {
         player.firstName,
         player.lastName,
         player.ppg,
-        player.team,
+        // player.team,
       );
     } catch (e: unknown) {
       handleErrors(e);
