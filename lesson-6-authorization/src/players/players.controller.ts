@@ -14,11 +14,11 @@ import { PlayersService } from './players.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResponsePlayerDto } from './dto/response-player.dto';
 import { PaginationDto } from './dto/pagination.dto';
-import { Roles } from 'src/auth-legacy/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { RolesGuard } from 'src/iam/guards/roles.guard';
+import { Roles } from 'src/iam/decorators/roles.decorator';
 
-@Roles(Role.BASIC)
+@Roles([Role.BASIC])
 @Controller('players')
 export class PlayersController {
   constructor(private playersService: PlayersService) {}
@@ -50,7 +50,7 @@ export class PlayersController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles([Role.ADMIN])
   @Delete(':id')
   removePlayer(@Param('id') id: string): Promise<ResponsePlayerDto> {
     return this.playersService.removePlayer(id);
